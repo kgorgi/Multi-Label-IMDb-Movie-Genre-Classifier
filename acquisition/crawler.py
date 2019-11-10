@@ -1,6 +1,7 @@
 import requests 
 from bs4 import BeautifulSoup
 
+list_id = "ls057823854"
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36',
     'Content-Type': 'text/html',
@@ -8,7 +9,7 @@ headers = {
 
 def get_page(page_number):
     """Returns the HTML of a specific list page"""
-    url = "https://www.imdb.com/list/ls000004717/?sort=list_order,asc&st_dt=&mode=detail&page=" + str(page_number)
+    url = "https://www.imdb.com/list/" + list_id + "/?sort=list_order,asc&st_dt=&mode=detail&page=" + str(page_number)
     r = requests.get(url, headers=headers)
     return r.text
 
@@ -25,11 +26,11 @@ def process_page(html):
 
     return movie_ids
 
-def crawl_imdb():
+def crawl_imdb(max_page):
     """Returns an array of imdb movie ids"""
     movie_ids = []
 
-    for i in range(1, 11):
+    for i in range(1, max_page):
         print("Processing page: " + str(i))
         html = get_page(i)
         movie_ids.extend(process_page(html))
@@ -37,7 +38,7 @@ def crawl_imdb():
     return movie_ids
 
 def main():
-    movie_ids = crawl_imdb()
+    movie_ids = crawl_imdb(5)
     print(movie_ids)
 
 if __name__ == '__main__':
