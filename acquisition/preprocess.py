@@ -12,6 +12,7 @@ import string
 import re
 
 def test_list ():
+    """ This is only used for testing """
     testlist = []
     html = requests.get('https://www.imdb.com/title/tt0110912/plotsummary?ref_=tt_stry_pl#synopsis')
     html = BeautifulSoup(html.content, 'html.parser')
@@ -44,6 +45,6 @@ def main ():
     main()
 
 if __name__ == '__main__':
-    test = test_list()
+    # test = test_list()
     # print(test)
-    print(filter_words(test))
+    # print(filter_words(test))
