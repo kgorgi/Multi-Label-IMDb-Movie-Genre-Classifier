@@ -5,14 +5,13 @@ import requests
 
 import nltk
 nltk.download('stopwords')
-from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 stop_words = set(stopwords.words('english'))
 
 import string
 import re
 
-def testlist ():
+def test_list ():
     testlist = []
     html = requests.get('https://www.imdb.com/title/tt0110912/plotsummary?ref_=tt_stry_pl#synopsis')
     html = BeautifulSoup(html.content, 'html.parser')
@@ -24,7 +23,8 @@ def testlist ():
     return testlist
 
 def filter_words (synopses_list):
-    """ Returns a list of the synopses without the stop words and puncuntuation """
+    """ Expects a list of li elements that were found with BeautifulSoup see test_list for example"""
+    """ Returns a list of the synopses as strings without the stop words and puncuntuation """
     new_synopses_list = []
     for synopsis in synopses_list:
         fresh_list = []
@@ -41,11 +41,9 @@ def filter_words (synopses_list):
     return new_synopses_list
 
 def main ():
-    print("hello")
+    main()
 
 if __name__ == '__main__':
-    main()
-    test = testlist()
+    test = test_list()
     # print(test)
     print(filter_words(test))
-
