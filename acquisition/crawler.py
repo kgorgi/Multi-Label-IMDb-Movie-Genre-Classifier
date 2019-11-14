@@ -8,38 +8,53 @@ headers = {
 }
 
 def get_page(page_number):
-    """Returns the HTML of a specific list page"""
+    """Returns the HTML of a specific list page or None if response failed"""
     url = "https://www.imdb.com/list/" + list_id + "/?sort=list_order,asc&st_dt=&mode=detail&page=" + str(page_number)
-    r = requests.get(url, headers=headers)
-    return r.text
+
+    try:
+        r = requests.get(url, headers=headers)
+        r.raise_for_status()
+        return r.text
+    except HTTPError as err:
+        print('None 200 status code: %s', err)
+    except Exception as amb_err:
+        print('Ambigious error: %s', amb_err)
+
+    return None
 
 def process_page(html):
-    """Processes HTML and returns an array of imdb movie ids"""
+    """Processes HTML and returns an array of tuples (movie_id, array of genres)"""
     soup = BeautifulSoup(html, features="html.parser")
-    headers = soup.findAll("h3", {"class": "lister-item-header"})
+    html_list = soup.findAll("div", {"class": "lister-item-content"})
 
-    movie_ids = []
-    for header in headers:
-        movie_url = header.a['href']
+    movies_list = []
+    for html in html_list:
+        movie_url = html.h3.a['href']
         movie_id = movie_url.split('/')[2]
-        movie_ids.append(movie_id)
 
-    return movie_ids
+        genre_text = html.p.find("span", {"class": "genre"}).getText()
+        genre_array = [text.strip() for text in genre_text.split(", ")] 
+        movies_list.append((movie_id, genre_array))
+
+    return movies_list
 
 def crawl_imdb(max_page):
-    """Returns an array of imdb movie ids"""
-    movie_ids = []
+    """Returns an array of tuples (movie_id, array of genres)"""
+    movies = []
 
     for i in range(1, max_page):
         print("Processing page: " + str(i))
         html = get_page(i)
-        movie_ids.extend(process_page(html))
+        if html is not None:
+            movies.extend(process_page(html))
     
-    return movie_ids
+    return movies
 
 def main():
-    movie_ids = crawl_imdb(5)
-    print(movie_ids)
+    movies = crawl_imdb(2)
+
+    for movie in movies:
+        print(movie)
 
 if __name__ == '__main__':
     main()
