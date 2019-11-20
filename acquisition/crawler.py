@@ -23,23 +23,28 @@ def get_page(page_number):
     return None
 
 def process_page(html):
-    """Processes HTML and returns an array of tuples (movie_id, array of genres)"""
+    """Processes HTML and returns an array of array [movie_id, array of genres]"""
     soup = BeautifulSoup(html, features="html.parser")
     html_list = soup.findAll("div", {"class": "lister-item-content"})
 
     movies_list = []
     for html in html_list:
-        movie_url = html.h3.a['href']
-        movie_id = movie_url.split('/')[2]
 
-        genre_text = html.p.find("span", {"class": "genre"}).getText()
-        genre_array = [text.strip() for text in genre_text.split(", ")] 
-        movies_list.append((movie_id, genre_array))
+        try:
+            movie_url = html.h3.a['href']
+            movie_id = movie_url.split('/')[2]
+            genre_html = html.p.find("span", {"class": "genre"})
+            genre_text = genre_html.getText()
+            genre_array = [text.strip() for text in genre_text.split(", ")] 
+            movies_list.append([movie_id, genre_array])
+        except:
+            # Invalid Movie...Skip
+            pass 
 
     return movies_list
 
 def crawl_imdb(max_page):
-    """Returns an array of tuples (movie_id, array of genres)"""
+    """Returns an array of arrays [movie_id, array of genres]"""
     movies = []
 
     for i in range(1, max_page):
