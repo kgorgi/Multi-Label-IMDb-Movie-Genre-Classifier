@@ -25,7 +25,7 @@ def test_list ():
 
 def filter_words (synopses_list):
     """ Expects a list of li elements that were found with BeautifulSoup see test_list for example"""
-    """ Returns a list of the synopses as strings without the stop words and puncuntuation """
+    """ Returns a list of the synopses as strings without the stop words, puncuntuation , and html code"""
     new_synopses_list = []
     for synopsis in synopses_list:
         fresh_list = []
@@ -45,6 +45,6 @@ def main ():
     main()
 
 if __name__ == '__main__':
-    # test = test_list()
-    # print(test)
-    # print(filter_words(test))
+    test = test_list()
+    print(test)
+    print(filter_words(test))
