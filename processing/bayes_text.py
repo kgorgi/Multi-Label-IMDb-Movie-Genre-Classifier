@@ -1,44 +1,44 @@
 import pandas as pd
 from math import log2
 
-# def main():
-#     fd = readDataLines("traindata.txt")
-#     fl = readLabelLines("trainlabels.txt")
-#     doc_set = list(zip(fd, fl))
-#     classes_set = [0, 1]
+def main():
+    fd = readDataLines("traindata.txt")
+    fl = readLabelLines("trainlabels.txt")
+    doc_set = list(zip(fd, fl))
+    classes_set = [0, 1]
 
-#     vocab, prior, condprob = trainMultinomialNB(classes_set ,doc_set)
+    vocab, prior, condprob = trainMultinomialNB(classes_set ,doc_set)
 
-#     doc = readDataLines("traindata.txt")
-#     comparer = []
-#     for line in doc:
-#         comparer.append(applyMultinomialNB(classes_set, vocab, prior, condprob, line))
+    doc = readDataLines("traindata.txt")
+    comparer = []
+    for line in doc:
+        comparer.append(applyMultinomialNB(classes_set, vocab, prior, condprob, line))
     
-#     fl = readLabelLines("trainlabels.txt")
-#     indexer = 0
-#     correct_count = 0
-#     for element in comparer:
-#         if element == fl[indexer]:
-#             correct_count += 1
-#         indexer += 1
-#     fraction_train = "Amount Correctly Predicted = " + str(correct_count) + " / " + str(len(comparer)) + "\n"
-#     percent_train = "Percentage Correctly Predicted = " + str(correct_count/len(comparer)) + "\n\n"
+    fl = readLabelLines("trainlabels.txt")
+    indexer = 0
+    correct_count = 0
+    for element in comparer:
+        if element == fl[indexer]:
+            correct_count += 1
+        indexer += 1
+    fraction_train = "Amount Correctly Predicted = " + str(correct_count) + " / " + str(len(comparer)) + "\n"
+    percent_train = "Percentage Correctly Predicted = " + str(correct_count/len(comparer)) + "\n\n"
 
-#     fd2 = readDataLines("testdata.txt")
-#     fl2 = readLabelLines("testlabels.txt")
-#     comparer2 = []
-#     for line in fd2:
-#         comparer2.append(applyMultinomialNB(classes_set, vocab, prior, condprob, line))
+    fd2 = readDataLines("testdata.txt")
+    fl2 = readLabelLines("testlabels.txt")
+    comparer2 = []
+    for line in fd2:
+        comparer2.append(applyMultinomialNB(classes_set, vocab, prior, condprob, line))
 
-#     indexer = 0
-#     correct_count = 0
-#     for element in comparer2:
-#         if element == fl2[indexer]:
-#             correct_count += 1
-#         indexer += 1
-#     fraction_train2 = "Amount Correctly Predicted = " + str(correct_count) + " / " + str(len(comparer2)) + "\n"
-#     percent_train2 = "Percentage Correctly Predicted = " + str(correct_count/len(comparer2)) + "\n\n"
-#     print("Results traindata.txt:\n" + fraction_train + percent_train + "Results testdata.txt:\n" + fraction_train2 + percent_train2)
+    indexer = 0
+    correct_count = 0
+    for element in comparer2:
+        if element == fl2[indexer]:
+            correct_count += 1
+        indexer += 1
+    fraction_train2 = "Amount Correctly Predicted = " + str(correct_count) + " / " + str(len(comparer2)) + "\n"
+    percent_train2 = "Percentage Correctly Predicted = " + str(correct_count/len(comparer2)) + "\n\n"
+    print("Results traindata.txt:\n" + fraction_train + percent_train + "Results testdata.txt:\n" + fraction_train2 + percent_train2)
 
 
 
@@ -129,6 +129,9 @@ def readLabelLines (filename):
     fl = open(filename, "r")
     fl_read = fl.readlines()
     return list(map( lambda d : int(d.strip()), fl_read))
+
+# def main():
+#     print()
 
 if __name__ == "__main__":
     main()
