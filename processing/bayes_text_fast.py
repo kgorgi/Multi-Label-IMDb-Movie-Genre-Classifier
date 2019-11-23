@@ -102,28 +102,25 @@ def CalculateAccuracy(test_results, test_labels):
             correct_result += 1
     return correct_result / len(test_results)
 
-def main():
-    start_time = datetime.datetime.now()
-    train_data = '../data/train_synopsis.txt'
-    train_labels = '../genres/action.txt'
-    test_data = '../data/test_synopsis_101-200.txt'
-    test_labels = '../genres/action_101-200.txt'
 
+
+def TrainAndDump(train_data, train_labels, training_dump_file="default_memory.txt"):
     training_data, training_labels = ReadData(train_data, train_labels)
-
     training_results = TrainModel(training_data, training_labels)
 
-    # Use this to write the training model to the memory
-    with open('../data/training_memory.txt', "wb") as outfile:
+    # Delta time calcualtor:
+    # start_time = datetime.datetime.now() //ADD to START
+    # dt = datetime.datetime.now() - start_time // ADD this and below at end of program END
+    # dt = divmod(dt.days * 86400 + dt.seconds, 60)
+
+    with open('../memory/' + str(training_dump_file), "wb") as outfile:
         pickle.dump(training_results, outfile)
 
-    # Use this to read the training model from memory
-    with open('../data/training_memory.txt', "rb") as infile:
-        training_results = pickle.load(infile)
 
-    
-    
-    testing_data, testing_labels = ReadData(train_data, train_labels)
+
+def ReadAndTest(test_data, test_labels, result_file="default_results.txt"):
+    with open('../memory/default_memory.txt', "rb") as infile:
+        training_results = pickle.load(infile)
     testing_data, testing_labels = ReadData(test_data, test_labels)
     test_results = list()
 
@@ -132,13 +129,22 @@ def main():
     
     test_accuracy = CalculateAccuracy(test_results, testing_labels)
     
-    with open('result.txt', 'w') as results:
+    with open("../results/"+ str(result_file), 'w') as results:
         results.write('File was trained with the data file: %s and labels: %s. It was tested with the data in: %s and labels in %s\n\n' % (train_data, train_labels, test_data, test_labels))
         results.write('Accuracy: %s%%' % (test_accuracy*100))
-        results.write('\nComputation time was:\n')
-        dt = datetime.datetime.now() - start_time
-        dt = divmod(dt.days * 86400 + dt.seconds, 60)
-        results.write("Runtime took " + str(dt[0]) + " minutes, and " + str(dt[1]) + " seconds.")
+
+
+def main():
+    train_data = '../data/test_synopsis.txt'
+    train_labels = '../genres/action.txt'
+
+    test_data = '../data/test_synopsis_101-200.txt'
+    test_labels = '../genres/action_101-200.txt'
+
+    TrainAndDump(train_data,train_labels)
+    ReadAndTest(test_data,test_labels)
+
+    
         
 if __name__ =="__main__":
     main()
