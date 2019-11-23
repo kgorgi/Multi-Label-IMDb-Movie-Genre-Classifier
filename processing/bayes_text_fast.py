@@ -1,6 +1,6 @@
 import math
 import datetime
-import json
+import pickle
 
 
 def ClassifyTrainingData(data_lines, labels):
@@ -109,17 +109,17 @@ def main():
     test_data = '../data/test_synopsis_101-200.txt'
     test_labels = '../genres/action_101-200.txt'
 
-    # training_data, training_labels = ReadData(train_data, train_labels)
+    training_data, training_labels = ReadData(train_data, train_labels)
 
-    # training_results = TrainModel(training_data, training_labels)
+    training_results = TrainModel(training_data, training_labels)
 
     # Use this to write the training model to the memory
-    # with open('../data/training_memory.txt', "w") as outfile:
-    #     json.dump(training_results, outfile)
+    with open('../data/training_memory.txt', "wb") as outfile:
+        pickle.dump(training_results, outfile)
 
     # Use this to read the training model from memory
-    with open('../data/training_memory.txt', "r") as infile:
-        training_results = json.load(infile)
+    with open('../data/training_memory.txt', "rb") as infile:
+        training_results = pickle.load(infile)
 
     
     
