@@ -3,6 +3,10 @@ import pandas as pd
 from math import log2
 import datetime
 
+# All of this is just copied from Thomos bayes_text implementation,
+#   so I have no idea how it works what I have done here is just
+#   turned his old main() into a function that takes a training set
+#   and testing set.
 def feed_data(train_data_filename, train_labels_filename, test_data_filename, test_labels_filename):
     print("Feed #1")
     print(datetime.datetime.now())
@@ -50,8 +54,6 @@ def feed_data(train_data_filename, train_labels_filename, test_data_filename, te
         comparer2.append(bt.applyMultinomialNB(classes_set, vocab, prior, condprob, line))
     print("Feed #8")
     print(datetime.datetime.now())
-
-    
     indexer = 0
     correct_count = 0
     for element in comparer2:
@@ -65,11 +67,14 @@ def feed_data(train_data_filename, train_labels_filename, test_data_filename, te
     print(datetime.datetime.now())
 
 def main():
+    # Sanity check to see if the copy pasta worked
     # feed_data("traindata.txt", "trainlabels.txt", "testdata.txt", "testlabels.txt")
+
+    # Testing seems to be 100 percent for train data, but we assume that is 
     print("TESTING: action-100.txt")
     print("So this includes the first 100 synopsis and whether or not they are action movies")
     print()
-    feed_data("../data/train_synopsis-100.txt", "../genres/action-100.txt", "../data/train_synopsis-100.txt", "../genres/action-100.txt")
+    feed_data("../data/train_synopsis.txt", "../genres/action_1-100.txt", "../data/test_synopsis_101-200.txt", "../genres/action_101-200.txt")
 
 if __name__ == "__main__":
     main()

@@ -16,12 +16,12 @@ data_files = ["pages_1-10.txt", "pages_11-20.txt",
     "pages_81-90.txt", "pages_91-100.txt"]
 
 # Make a genre files that consists of ones and zeros
-# Creates all the genres into their own files
+#   to conform to input from code lifted from Thomo
+# Creates all the genres into their own files and stores,
+#   them into a genres subfolder
 def genre_generator():
     unique_genres = find_unique_genres()
     genres = get_genres()
-
-    
     for current_genre in unique_genres:
         os.remove("../genres/" + current_genre + ".txt")
 
@@ -44,6 +44,7 @@ def genre_generator():
                     else:
                         cg.write("0\n")
 
+# Helper method for genre_generator()
 def get_genres():
     genres = []
     with open("../data/train_genre.txt", "r") as tg:
@@ -51,6 +52,7 @@ def get_genres():
             genres.append(line)
     return genres
 
+# Helper method for genre_generator()
 def find_unique_genres():
     unique_genres = []
     with open("../data/train_genre.txt", "r") as tg:
@@ -65,8 +67,15 @@ def find_unique_genres():
     return unique_genres
 
 
-# This is so fucked
-# pages_$($)-$$($).txt
+# Method takes all of the 'pages_1-10.txt'
+#   then converts them into three text files:
+#       - train_synopsis.txt
+#       - train_ids.txt
+#       - train_genre.txt
+#   This allows just one place to iterate and grab data.
+#   Additionally, for the synopsis it strips any punctuation,
+#       removes stops words, makes all strings lower, and
+#       replaces all words with their stem versions.w
 def process():
     op = 0
     ids = []
@@ -106,9 +115,9 @@ def process():
         
     
 def main():
-    process()
-    # Ran genre_generator()
-    # TODO need to feed all the data into the profs text classifier
+    # Run process()
+    # Run genre_generator()
+    # Should only need to run the above two once
     print()
             
 
