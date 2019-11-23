@@ -1,5 +1,0 @@
-File was trained with the data file: ../data/train_synopsis.txt and labels: ../genres/action.txt. It was tested with the data in: ../data/test_synopsis_101-200.txt and labels in ../genres/action_101-200.txt
-
-Accuracy: 53.0%
-Computation time was:
-Runtime took 0 minutes, and 0 seconds.
