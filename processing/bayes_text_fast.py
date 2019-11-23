@@ -1,5 +1,6 @@
 import math
 import datetime
+import json
 
 
 def ClassifyTrainingData(data_lines, labels):
@@ -108,8 +109,18 @@ def main():
     test_data = '../data/test_synopsis_101-200.txt'
     test_labels = '../genres/action_101-200.txt'
 
-    training_data, training_labels = ReadData(train_data, train_labels)
-    training_results = TrainModel(training_data, training_labels)
+    # training_data, training_labels = ReadData(train_data, train_labels)
+
+    # training_results = TrainModel(training_data, training_labels)
+
+    # Use this to write the training model to the memory
+    # with open('../data/training_memory.txt', "w") as outfile:
+    #     json.dump(training_results, outfile)
+
+    # Use this to read the training model from memory
+    with open('../data/training_memory.txt', "r") as infile:
+        training_results = json.load(infile)
+
     
     
     testing_data, testing_labels = ReadData(train_data, train_labels)
@@ -124,11 +135,10 @@ def main():
     with open('result.txt', 'w') as results:
         results.write('File was trained with the data file: %s and labels: %s. It was tested with the data in: %s and labels in %s\n\n' % (train_data, train_labels, test_data, test_labels))
         results.write('Accuracy: %s%%' % (test_accuracy*100))
-    end_time = datetime.datetime.now()
-    delta_time = end_time - start_time
-    delta_time = divmod(delta_time.days * 86400 + delta_time.seconds, 60)
-    print("Runtime took " + str(delta_time[0]) + "minutes, and " + str(delta_time[1]) + "seconds.")
-    
-
+        results.write('\nComputation time was:\n')
+        dt = datetime.datetime.now() - start_time
+        dt = divmod(dt.days * 86400 + dt.seconds, 60)
+        results.write("Runtime took " + str(dt[0]) + " minutes, and " + str(dt[1]) + " seconds.")
+        
 if __name__ =="__main__":
     main()
