@@ -1,4 +1,6 @@
 import nltk
+from nltk.stem import PorterStemmer 
+from nltk.tokenize import word_tokenize 
 nltk.download('stopwords')
 from nltk.corpus import stopwords
 stop_words = set(stopwords.words('english'))
@@ -70,6 +72,7 @@ def process():
     ids = []
     genres = []
     synopsis = []
+    ps = PorterStemmer() 
     for file_name in data_files:
         with open("../data/" + file_name) as open_file_object:
             for line in open_file_object:
@@ -90,6 +93,7 @@ def process():
                         word = word.lower()
                         new_word = re.sub(r'[^\w\s]', '', word)
                         if new_word not in stop_words and new_word != '':
+                            new_word = ps.stem(new_word)
                             fresh_line = fresh_line + " " + new_word
                     fresh_line = fresh_line + "\n"
                     synopsis.append(fresh_line)
@@ -102,7 +106,7 @@ def process():
         
     
 def main():
-    # Ran process()
+    process()
     # Ran genre_generator()
     # TODO need to feed all the data into the profs text classifier
     print()

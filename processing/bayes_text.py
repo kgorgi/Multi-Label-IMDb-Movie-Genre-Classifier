@@ -1,5 +1,8 @@
 import pandas as pd
 from math import log2
+import datetime
+import os
+from multiprocessing import Pool
 
 def main():
     fd = readDataLines("traindata.txt")
@@ -43,21 +46,40 @@ def main():
 
 
 def trainMultinomialNB(classes_set, doc_set):
+    print("Feed #2.1")
+    print(datetime.datetime.now())
     vocab = extractVocabulary(doc_set)
+
+    print("Feed #2.2")
+    print(datetime.datetime.now())
     num_docs = countDocs(doc_set)
     prior = [0, 0]
     cols = len(vocab)
     rows = 2
+
+    print("Feed #2.3")
+    print(datetime.datetime.now())
     # condprob = [[0 for i in range(cols)] for j in range(rows)]
     condprob = [dict() for x in range(rows)]
+    print("Feed #2.4")
+    print(datetime.datetime.now())
+    print("classes_set len = " + str(len(classes_set)))
+    print("vocab len = " + str(len(vocab)))
     for class_c in classes_set:
+        print("Feed #2.41")
         prior[class_c] = countClassDocs(class_c, doc_set) / num_docs
+        print("Feed #2.42")
         class_docs_concat = concatTextAllClassDocs(doc_set, class_c)
+        print("Feed #2.43")
         num_unique_words = countClassUnique(class_docs_concat)
         indexer = 0
+        print("Feed #2.44")
+
         for word in vocab:
-            T_ct = countNumOccurences(class_docs_concat, word)
-            condprob[class_c][word] = (T_ct + 1) / ( len(class_docs_concat.split(" ")) + num_unique_words - T_ct - 1)
+            cdcs = class_docs_concat.split(" ")
+            T_ct = cdcs.count(word)
+            # was :: T_ct = countNumOccurences(class_docs_concat, word)
+            condprob[class_c][word] = (T_ct + 1) / ( len(cdcs) + num_unique_words - T_ct - 1)
             indexer += 1
     return vocab, prior, condprob
 
@@ -94,11 +116,11 @@ def countClassDocs(class_c, doc_set):
     return count
 
 def countNumOccurences(class_docs_concat, word):
-    occurences = 0
-    for cur_word in class_docs_concat.split(" "):
-        if cur_word == word:
-            occurences += 1
-    return occurences
+    # occurences = 0
+    # for cur_word in class_docs_concat.split(" "):
+    #     if cur_word == word:
+    #         occurences += 1
+    return class_docs_concat.split(" ").count(word)
 
 def concatTextAllClassDocs(doc_set, class_c):
     class_docs_concat = ""
@@ -138,7 +160,7 @@ if __name__ == "__main__":
 
 # def TrainMultinomialNB(Classes_Set, Doc_Set):
 #
-#     vocab = extractVocab(Doc_Set) # vocab == V
+#     vocab = extrps = PorterStemmer() actVocab(Doc_Set) # vocab == V
 #     num_of_docs = countDocs(Doc_Set) # num_of_docs == N
 #     prior
 #     condprob

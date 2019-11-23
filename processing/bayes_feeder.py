@@ -4,28 +4,33 @@ from math import log2
 import datetime
 
 def feed_data(train_data_filename, train_labels_filename, test_data_filename, test_labels_filename):
-    print(datetime.datetime.now())
     print("Feed #1")
+    print(datetime.datetime.now())
+
     fd = bt.readDataLines(train_data_filename)
     fl = bt.readLabelLines(train_labels_filename)
     doc_set = list(zip(fd, fl))
     classes_set = [0, 1]
     print("Feed #2")
-
+    print(datetime.datetime.now())
 
     vocab, prior, condprob = bt.trainMultinomialNB(classes_set ,doc_set)
     print("Feed #3")
+    print(datetime.datetime.now())
 
     doc = bt.readDataLines(train_data_filename)
     comparer = []
     for line in doc:
         comparer.append(bt.applyMultinomialNB(classes_set, vocab, prior, condprob, line))
     print("Feed #4")
+    print(datetime.datetime.now())
     
     fl = bt.readLabelLines(train_labels_filename)
     indexer = 0
     correct_count = 0
     print("Feed #5")
+    print(datetime.datetime.now())
+
     for element in comparer:
         if element == fl[indexer]:
             correct_count += 1
@@ -33,15 +38,19 @@ def feed_data(train_data_filename, train_labels_filename, test_data_filename, te
     fraction_train = "Amount Correctly Predicted = " + str(correct_count) + " / " + str(len(comparer)) + "\n"
     percent_train = "Percentage Correctly Predicted = " + str(correct_count/len(comparer)) + "\n\n"
     print("Feed #6")
-
+    print(datetime.datetime.now())
 
     fd2 = bt.readDataLines(test_data_filename)
     fl2 = bt.readLabelLines(test_labels_filename)
     comparer2 = []
     print("Feed #7")
+    print(datetime.datetime.now())
+
     for line in fd2:
         comparer2.append(bt.applyMultinomialNB(classes_set, vocab, prior, condprob, line))
     print("Feed #8")
+    print(datetime.datetime.now())
+
     
     indexer = 0
     correct_count = 0
@@ -54,10 +63,11 @@ def feed_data(train_data_filename, train_labels_filename, test_data_filename, te
     percent_train2 = "Percentage Correctly Predicted = " + str(correct_count/len(comparer2)) + "\n\n"
     print("Results " + train_data_filename + ":\n" + fraction_train + percent_train + "Results  " + test_data_filename + ":\n" + fraction_train2 + percent_train2)
     print(datetime.datetime.now())
-    
+
 def main():
     # feed_data("traindata.txt", "trainlabels.txt", "testdata.txt", "testlabels.txt")
-    print("TESTING: action")
+    print("TESTING: action-100.txt")
+    print("So this includes the first 100 synopsis and whether or not they are action movies")
     print()
     feed_data("../data/train_synopsis-100.txt", "../genres/action-100.txt", "../data/train_synopsis-100.txt", "../genres/action-100.txt")
 
