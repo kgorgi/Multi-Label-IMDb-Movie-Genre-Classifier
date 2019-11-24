@@ -1,6 +1,7 @@
 import math
 import datetime
 import pickle
+import preprocess as pp
 
 
 def ClassifyTrainingData(data_lines, labels):
@@ -130,19 +131,36 @@ def ReadAndTest(test_data, test_labels, result_file="default_results.txt"):
     test_accuracy = CalculateAccuracy(test_results, testing_labels)
     
     with open("../results/"+ str(result_file), 'w') as results:
-        results.write('File was trained with the data file: %s and labels: %s. It was tested with the data in: %s and labels in %s\n\n' % (train_data, train_labels, test_data, test_labels))
+        results.write('File was tested with the data in: %s and labels in %s\n\n' % (test_data, test_labels))
         results.write('Accuracy: %s%%' % (test_accuracy*100))
 
 
 def main():
-    train_data = '../data/test_synopsis.txt'
-    train_labels = '../genres/action.txt'
 
-    test_data = '../data/test_synopsis_101-200.txt'
-    test_labels = '../genres/action_101-200.txt'
 
-    TrainAndDump(train_data,train_labels)
-    ReadAndTest(test_data,test_labels)
+    # train_data = '../data/train_synopsis.txt'
+    # train_labels = '../genres/action.txt'
+
+    # test_data = '../data/test_synopsis_101-200.txt'
+    # test_labels = '../genres/action_101-200.txt'
+
+    # TrainAndDump(train_data,train_labels)
+    # ReadAndTest(test_data,test_labels)
+
+
+
+    all_genres = pp.find_unique_genres()
+    train_data = '../data/train_synopsis.txt'
+    train_labels = ""
+    count = 0
+    for genre in all_genres:
+        if count > 0: break
+        count += 1
+        train_labels = ('../genres/%s.txt' % (genre))
+        dump_file = ('%s_mem.txt' % (genre))
+        TrainAndDump(train_data, train_labels, dump_file)
+
+
 
     
         
