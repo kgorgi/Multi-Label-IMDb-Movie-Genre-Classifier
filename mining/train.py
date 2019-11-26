@@ -74,12 +74,12 @@ def train_model(movies, genre):
     return model
 
 def main():   
-    movies, genres = movie_synopsis.read_file('../data/training_movies.txt')   
+    movies, genres = movie_synopsis.read_file('../data/test_movies.txt')   
    
     models = dict()
     for genre in genres:
         models[genre] = train_model(movies, genre)
-        print(genre + " Model Trained")
+        print(genre + " model trained")
 
     encoded_model = json.dumps(models, indent=4, separators=(',', ': '))
     with open('models.json', 'w') as model_file:

@@ -3,6 +3,8 @@ import math
 
 import movie_synopsis
 
+OUTPUT_STATS = True
+
 def calculate_score(model, movie):
     priorProb = model["priorProb"]
     condProb = model["condProb"]
@@ -25,7 +27,7 @@ def calculate_class(score):
     else:
         return movie_synopsis.is_not_genre_class
   
-def apply_model(models, movie):
+def apply_models(models, movie):
     movie_genres = set()
 
     for genre in models.keys():
@@ -35,31 +37,7 @@ def apply_model(models, movie):
 
     return movie_genres
 
-def main():
-    models_json = None
-    with open('./models.json') as models_file:
-        models_json = models_file.read()
-    
-    models = json.loads(models_json)    
-    movies, genres = movie_synopsis.read_file('../data/test_movies.txt')
-
-    # Key: movie_id, Value: List of genres
-    predicted_genres = dict()
-    for movie in movies:
-        predicted_genres[movie.id] = apply_model(models, movie)
-
-    correct = 0
-    total = 0
-    for movie in movies:
-        for genre in genres:
-            if movie.has_genre(genre) and genre in predicted_genres[movie.id]:
-                correct += 1
-            elif not movie.has_genre(genre) and genre not in predicted_genres[movie.id]:
-                correct += 1
-            total += 1
-
-    print("Overall Accuracy : " + str(correct/(total) * 100) + "%")
-
+def print_stats(movies, genres, predicted_genres):
     for genre in genres:
         correct_classifications = 0
 
@@ -81,6 +59,33 @@ def main():
         actual_counts.append(len(movie.genres))
     print("Average number of actual genres per movie: " + str(sum(actual_counts)/len(actual_counts)))
 
+def main():
+    models_json = None
+    with open('./models.json') as models_file:
+        models_json = models_file.read()
+    
+    models = json.loads(models_json)    
+    movies, genres = movie_synopsis.read_file('../data/train_movies.txt')
+
+    # Key: movie_id, Value: List of genres
+    predicted_genres = dict()
+    for movie in movies:
+        predicted_genres[movie.id] = apply_models(models, movie)
+
+    correct = 0
+    total = 0
+    for movie in movies:
+        for genre in genres:
+            if movie.has_genre(genre) and genre in predicted_genres[movie.id]:
+                correct += 1
+            elif not movie.has_genre(genre) and genre not in predicted_genres[movie.id]:
+                correct += 1
+            total += 1
+
+    print("Overall Accuracy : " + str(correct/(total) * 100) + "%")
+
+    if OUTPUT_STATS:
+        print_stats(movies, genres, predicted_genres)
     
 
 if __name__ == "__main__":
