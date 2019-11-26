@@ -119,7 +119,7 @@ def TrainAndDump(train_data, train_labels, training_dump_file="default_memory.tx
 
 
 def ReadAndTest(test_data, test_labels, result_file="default_results.txt"):
-    with open('../memory/default_memory.txt', "rb") as infile:
+    with open('../memory/action_mem.txt', "rb") as infile:
         training_results = pickle.load(infile)
     testing_data, testing_labels = ReadData(test_data, test_labels)
     test_results = list()
@@ -130,19 +130,48 @@ def ReadAndTest(test_data, test_labels, result_file="default_results.txt"):
     test_accuracy = CalculateAccuracy(test_results, testing_labels)
     
     with open("../results/"+ str(result_file), 'w') as results:
-        results.write('File was trained with the data file: %s and labels: %s. It was tested with the data in: %s and labels in %s\n\n' % (train_data, train_labels, test_data, test_labels))
+        results.write('File was tested with the data in: %s and labels in %s\n\n' % (test_data, test_labels))
         results.write('Accuracy: %s%%' % (test_accuracy*100))
 
+def find_unique_genres():
+    unique_genres = []
+    with open("../data/train_genre.txt", "r") as tg:
+        for line in tg:
+            words = line.split(",")
+            for word in words:
+                word = word.strip('\n')
+                if word not in unique_genres:
+                    unique_genres.append(word)
+    unique_genres.sort()
+
+    return unique_genres
 
 def main():
-    train_data = '../data/test_synopsis.txt'
-    train_labels = '../genres/action.txt'
+
+
+    # train_data = '../data/train_synopsis.txt'
+    # train_labels = '../genres/action.txt'
 
     test_data = '../data/test_synopsis_101-200.txt'
     test_labels = '../genres/action_101-200.txt'
 
-    TrainAndDump(train_data,train_labels)
-    ReadAndTest(test_data,test_labels)
+    # TrainAndDump(train_data,train_labels)
+    ReadAndTest(test_data,test_labels,"action_results.txt")
+
+
+
+    # all_genres = find_unique_genres()
+    # train_data = '../data/train_synopsis.txt'
+    # train_labels = ""
+    # count = 0
+    # for genre in all_genres:
+    #     if count > 0: break
+    #     count += 1
+    #     train_labels = ('../genres/%s.txt' % (genre))
+    #     dump_file = ('%s_mem.txt' % (genre))
+    #     TrainAndDump(train_data, train_labels, dump_file)
+
+
 
     
         
