@@ -1,3 +1,0 @@
-File was tested with the data in: ../data/test_synopsis_101-200.txt and labels in ../genres/action_101-200.txt
-
-Accuracy: 98.0%
