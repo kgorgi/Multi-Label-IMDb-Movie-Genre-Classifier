@@ -1,8 +1,10 @@
-from scraper import add_movie_synopsis
-from crawler import get_page, process_page
 import threading
 import time
 import queue
+import random
+
+from scraper import add_movie_synopsis
+from crawler import get_page, process_page
 
 def crawler_thread(page_queue, movie_id_queue):
     while not page_queue.empty():
@@ -78,18 +80,16 @@ def acquire_data(start_page_num, end_page_num):
 
     with open('pages_' + str(start_page_num) + '-' + str(end_page_num) + '.txt', 'w') as fh:
         for movie in result_list:
-            if len(movie) < 3:
-                print('WEIRD: ' + ' '.join(movie) + ' Length: ' + str(len(movie)))
             fh.writelines([movie[0] + '\n', ','.join(movie[1]) + '\n', movie[2] + '\n'])
 
 def main():
-    for i in range(8, 10):
+    for i in range(0, 10):
         start = 1 + 10 * i
         end = 10 + 10 * i
         print('Processing Pages ' + str(start) + ' to ' + str(end))
 
         acquire_data(start, end)
-        time.sleep(10)
+        time.sleep(random.randint(10, 20))
 
 if __name__ == '__main__':
     main()
