@@ -1,5 +1,5 @@
-import requests 
 from bs4 import BeautifulSoup
+from utilities import safe_get
 
 list_id = "ls057823854"
 headers = {
@@ -10,17 +10,7 @@ headers = {
 def get_page(page_number):
     """Returns the HTML of a specific list page or None if response failed"""
     url = "https://www.imdb.com/list/" + list_id + "/?sort=list_order,asc&st_dt=&mode=detail&page=" + str(page_number)
-
-    try:
-        r = requests.get(url, headers=headers)
-        r.raise_for_status()
-        return r.text
-    except HTTPError as err:
-        print('None 200 status code: %s', err)
-    except Exception as amb_err:
-        print('Ambigious error: %s', amb_err)
-
-    return None
+    return safe_get(url).text
 
 def process_page(html):
     """Processes HTML and returns an array of array [movie_id, array of genres]"""
