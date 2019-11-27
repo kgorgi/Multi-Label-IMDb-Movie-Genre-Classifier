@@ -54,7 +54,7 @@ def plot_genre_count(genre_data, x_increment):
     y_pos = np.arange(len(labels))
 
     for i, v in enumerate(sizes):
-        axis.text(v + 3, i + .25, str(v), color='blue', fontweight='bold')
+        axis.text(v + 3, i + .25, str(v), color='black', fontweight='bold')
     axis.barh(np.arange(len(labels)), sizes, align='center')
     plt.xticks(np.arange(0, max(sizes)+x_increment, x_increment))
     axis.set_yticks(np.arange(len(labels)))
