@@ -96,9 +96,9 @@ def main():
     genre_data_test = count_genres(get_genres('test_movies.txt'))
     plot_genre_count(genre_data_test, 10)
     genre_data_train = count_genres(get_genres('train_movies.txt'))
-    plot_genre_count(genre_data_train, 100)
+    plot_genre_count(genre_data_train, 200)
     genre_data_pages = count_genres(get_pages_text())
-    plot_genre_count(genre_data_pages, 100)
+    plot_genre_count(genre_data_pages, 200)
     word_count_sorted = count_words(get_pages_text())
     get_average_synopsis_length(get_pages_text())
 
