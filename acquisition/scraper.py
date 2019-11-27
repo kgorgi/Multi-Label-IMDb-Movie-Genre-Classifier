@@ -1,18 +1,7 @@
 from bs4 import BeautifulSoup
 import re
-import requests
 from html.parser import HTMLParser
-
-def retrieve_html(url):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-    except HTTPError as err:
-        print('None 200 status code: %s', err)
-    except Exception as amb_err:
-        print('Ambigious error: %s', amb_err)
-    else:
-        return BeautifulSoup(response.content, 'html.parser')
+from utilities import safe_get
 
 def remove_spaces(synopsis):
     all_br = synopsis.find_all('br')
@@ -23,7 +12,7 @@ def remove_spaces(synopsis):
     return " ".join(text.split())
 
 def get_movie_synopsis(movie_id):
-    movie_page_html = retrieve_html('https://www.imdb.com/title/' + movie_id + '/plotsummary')
+    movie_page_html = BeautifulSoup(safe_get('https://www.imdb.com/title/' + movie_id + '/plotsummary').content, 'html.parser')
     if movie_page_html.select('#no-synopsis-content'):
         return None
     else:
