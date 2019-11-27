@@ -54,7 +54,7 @@ def plot_genre_count(genre_data, x_increment):
     y_pos = np.arange(len(labels))
 
     for i, v in enumerate(sizes):
-        axis.text(v + 3, i + .25, str(v), color='blue', fontweight='bold')
+        axis.text(v + 3, i + .25, str(v), color='black', fontweight='bold')
     axis.barh(np.arange(len(labels)), sizes, align='center')
     plt.xticks(np.arange(0, max(sizes)+x_increment, x_increment))
     axis.set_yticks(np.arange(len(labels)))
@@ -96,9 +96,9 @@ def main():
     genre_data_test = count_genres(get_genres('test_movies.txt'))
     plot_genre_count(genre_data_test, 10)
     genre_data_train = count_genres(get_genres('train_movies.txt'))
-    plot_genre_count(genre_data_train, 100)
+    plot_genre_count(genre_data_train, 200)
     genre_data_pages = count_genres(get_pages_text())
-    plot_genre_count(genre_data_pages, 100)
+    plot_genre_count(genre_data_pages, 200)
     word_count_sorted = count_words(get_pages_text())
     get_average_synopsis_length(get_pages_text())
 
