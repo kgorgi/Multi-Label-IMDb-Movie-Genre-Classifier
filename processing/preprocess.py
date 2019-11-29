@@ -131,6 +131,10 @@ def process(bad_genres, genre_counter):
                 elif op == 1:
                     op = 2
                     genres = line.lower().split(',')
+                    good_genres = ""
+                    for genre in genres:
+                        if genre not in bad_genres:
+                            good_genres = good_genres + "," + genre
                     usable_movie = False
                     for genre in genres:
                         genre = genre.strip('\n')
@@ -140,13 +144,13 @@ def process(bad_genres, genre_counter):
                             train_with_movie = False
                             usable_movie = True
                             test_ids.append(tmp_id)
-                            test_genres.append(line.lower())
+                            test_genres.append(good_genres)
                             break
                         else:
                             train_with_movie = True
                             usable_movie = True
                             train_ids.append(tmp_id)
-                            train_genres.append(line.lower())
+                            train_genres.append(good_genres)
                             break
                     if train_with_movie == False and usable_movie == True:
                         for genre in genres:
@@ -222,7 +226,7 @@ def find_bad_genres():
 def main():
 
     bad_genres, genre_counter = find_bad_genres()
-    # process(bad_genres, genre_counter)
+    process(bad_genres, genre_counter)
     # genre_generator(bad_genres)
     # Should only need to run the above two once
     print()
