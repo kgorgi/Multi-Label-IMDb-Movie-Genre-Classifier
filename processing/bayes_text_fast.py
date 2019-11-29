@@ -103,7 +103,6 @@ def CalculateAccuracy(test_results, test_labels):
     return correct_result / len(test_results)
 
 
-
 def TrainAndDump(train_data, train_labels, training_dump_file="default_memory.txt"):
     training_data, training_labels = ReadData(train_data, train_labels)
     training_results = TrainModel(training_data, training_labels)
@@ -115,7 +114,6 @@ def TrainAndDump(train_data, train_labels, training_dump_file="default_memory.tx
 
     with open('../memory/' + str(training_dump_file), "wb") as outfile:
         pickle.dump(training_results, outfile)
-
 
 
 def ReadAndTest(test_data, test_labels, result_file="default_results.txt"):
@@ -148,7 +146,6 @@ def find_unique_genres():
 
 def main():
 
-
     # train_data = '../data/train_synopsis.txt'
     # train_labels = '../genres/action.txt'
 
@@ -157,8 +154,6 @@ def main():
 
     # TrainAndDump(train_data,train_labels)
     ReadAndTest(test_data,test_labels,"action_results.txt")
-
-
 
     # all_genres = find_unique_genres()
     # train_data = '../data/train_synopsis.txt'
@@ -172,8 +167,5 @@ def main():
     #     TrainAndDump(train_data, train_labels, dump_file)
 
 
-
-    
-        
 if __name__ =="__main__":
     main()

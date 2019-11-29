@@ -9,6 +9,9 @@ import string
 import re
 import os
 
+import json
+
+
 # Too lazy to use the smart string building with only ten files
 data_files = ["pages_1-10.txt", "pages_11-20.txt",
     "pages_21-30.txt", "pages_31-40.txt", "pages_41-50.txt",
@@ -73,7 +76,7 @@ def find_unique_genres():
     return unique_genres
 
 
-"""Method takes all of the 'pages_1-10.txt'
+"""Method takes all of the 'pages_xxx-xxx.txt'
 then converts them into six text files:
       - train_synopsis.txt
       - train_ids.txt
@@ -212,15 +215,15 @@ def find_bad_genres():
         if genre_counter[genre] < 100:
             bad_genres.append(genre)
             del genre_counter[genre]
-    print(genre_counter)
-    print(bad_genres)
+    print(json.dumps(genre_counter, indent=1))
+    print(json.dumps(bad_genres, indent=1))
     return bad_genres, genre_counter        
 
 def main():
 
     bad_genres, genre_counter = find_bad_genres()
-    process(bad_genres, genre_counter)
-    genre_generator(bad_genres)
+    # process(bad_genres, genre_counter)
+    # genre_generator(bad_genres)
     # Should only need to run the above two once
     print()
             
