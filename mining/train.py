@@ -74,7 +74,7 @@ def train_model(movies, genre):
     return model
 
 def main():   
-    movies, genres = movie_synopsis.read_file('../data/test_movies.txt')   
+    movies, genres = movie_synopsis.read_file('../data/train_movies.txt')   
    
     models = dict()
     for genre in genres:
