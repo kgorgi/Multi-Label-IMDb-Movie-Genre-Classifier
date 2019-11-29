@@ -63,7 +63,7 @@ def print_stats(movies, genres, predicted_genres):
                 correct_classifications += 1
 
         accuracy = correct_classifications/len(movies) * 100
-        print("\t{}:\t\t{:.2f >15}%".format(genre, accuracy))
+        print("\t{:<12}{:.2f}%".format(genre + ": ", accuracy))
 
 
 def main():
@@ -72,7 +72,7 @@ def main():
         models_json = models_file.read()
     
     models = json.loads(models_json)    
-    movies, test_genres = movie_synopsis.read_file('../data/test_movies.txt')
+    movies, test_genres = movie_synopsis.read_file('../data/train_movies.txt')
 
     genres = list(models.keys())
     genres.sort()
