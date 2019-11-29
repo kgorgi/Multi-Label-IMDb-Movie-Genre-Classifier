@@ -38,7 +38,13 @@ def preprocess_data(lines, bad_genres, genre_counter):
         elif op == 1:
             op = 2
             genres = line.lower().split(',')
+            good_genres_list = list()
+            for genre in genres:
+                if genre not in bad_genres:
+                    good_genres_list.append(genre)
+            good_genres = ",".join(good_genres_list)
             usable_movie = False
+            
             for genre in genres:
                 genre = genre.strip('\n')
                 if genre in bad_genres:
@@ -47,13 +53,13 @@ def preprocess_data(lines, bad_genres, genre_counter):
                     train_with_movie = False
                     usable_movie = True
                     test_ids.append(tmp_id)
-                    test_genres.append(line.lower())
+                    test_genres.append(good_genres)
                     break
                 else:
                     train_with_movie = True
                     usable_movie = True
                     train_ids.append(tmp_id)
-                    train_genres.append(line.lower())
+                    train_genres.append(good_genres)
                     break
             if train_with_movie == False and usable_movie == True:
                 for genre in genres:
@@ -79,7 +85,7 @@ def preprocess_data(lines, bad_genres, genre_counter):
                     train_synopsis.append(fresh_line)
                 else:
                     test_synopsis.append(fresh_line)
-
+                    
     return (train_ids, train_genres, train_synopsis), (test_ids,test_genres,test_synopsis)           
 
 def find_bad_genres(lines):
@@ -131,11 +137,13 @@ def write_movies_to_file(movie_tuples, filename):
 def main():
     lines = combine_files(0, 10)
 
+    print("Total number of movie synopses:", int(len(lines)/3))
+
     bad_genres, genre_counter = find_bad_genres(lines)
     train_movies_list, test_movies_list = preprocess_data(lines, bad_genres, genre_counter)
-    
-    write_movies_to_file(train_movies_list, 'train_movies.txt')
-    write_movies_to_file(test_movies_list, 'test_movies.txt')
+
+    write_movies_to_file(train_movies_list, '../data/train_movies.txt')
+    write_movies_to_file(test_movies_list, '../data/test_movies.txt')
             
 if __name__ == '__main__':
     main()
