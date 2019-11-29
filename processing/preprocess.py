@@ -38,6 +38,10 @@ def preprocess_data(lines, bad_genres, genre_counter):
         elif op == 1:
             op = 2
             genres = line.lower().split(',')
+            good_genres = ""
+            for genre in genres:
+                if genre not in bad_genres:
+                    good_genres = good_genres + "," + genre
             usable_movie = False
             for genre in genres:
                 genre = genre.strip('\n')
@@ -47,13 +51,13 @@ def preprocess_data(lines, bad_genres, genre_counter):
                     train_with_movie = False
                     usable_movie = True
                     test_ids.append(tmp_id)
-                    test_genres.append(line.lower())
+                    test_genres.append(good_genres)
                     break
                 else:
                     train_with_movie = True
                     usable_movie = True
                     train_ids.append(tmp_id)
-                    train_genres.append(line.lower())
+                    train_genres.append(good_genres)
                     break
             if train_with_movie == False and usable_movie == True:
                 for genre in genres:
@@ -63,23 +67,6 @@ def preprocess_data(lines, bad_genres, genre_counter):
                         continue
                     genre_filler[genre] += 1
         # op = 2 means synopsis so store in . and op = 0
-        else:
-            op = 0
-            if usable_movie:
-                fresh_line = ""
-                words = line.split()
-                for word in words:
-                    word = word.lower()
-                    new_word = re.sub(r'[^\w\s]', '', word)
-                    if new_word not in stop_words and new_word != '':
-                        new_word = ps.stem(new_word)
-                        fresh_line = fresh_line + " " + new_word
-                fresh_line = fresh_line.lstrip()        
-                if train_with_movie:
-                    train_synopsis.append(fresh_line)
-                else:
-                    test_synopsis.append(fresh_line)
-
     return (train_ids, train_genres, train_synopsis), (test_ids,test_genres,test_synopsis)           
 
 def find_bad_genres(lines):
