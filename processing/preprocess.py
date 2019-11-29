@@ -38,11 +38,13 @@ def preprocess_data(lines, bad_genres, genre_counter):
         elif op == 1:
             op = 2
             genres = line.lower().split(',')
-            good_genres = ""
+            good_genres_list = list()
             for genre in genres:
                 if genre not in bad_genres:
-                    good_genres = good_genres + "," + genre
+                    good_genres_list.append(genre)
+            good_genres = ",".join(good_genres_list)
             usable_movie = False
+            
             for genre in genres:
                 genre = genre.strip('\n')
                 if genre in bad_genres:
@@ -67,6 +69,23 @@ def preprocess_data(lines, bad_genres, genre_counter):
                         continue
                     genre_filler[genre] += 1
         # op = 2 means synopsis so store in . and op = 0
+        else:
+            op = 0
+            if usable_movie:
+                fresh_line = ""
+                words = line.split()
+                for word in words:
+                    word = word.lower()
+                    new_word = re.sub(r'[^\w\s]', '', word)
+                    if new_word not in stop_words and new_word != '':
+                        new_word = ps.stem(new_word)
+                        fresh_line = fresh_line + " " + new_word
+                fresh_line = fresh_line.lstrip()        
+                if train_with_movie:
+                    train_synopsis.append(fresh_line)
+                else:
+                    test_synopsis.append(fresh_line)
+                    
     return (train_ids, train_genres, train_synopsis), (test_ids,test_genres,test_synopsis)           
 
 def find_bad_genres(lines):
@@ -120,9 +139,9 @@ def main():
 
     bad_genres, genre_counter = find_bad_genres(lines)
     train_movies_list, test_movies_list = preprocess_data(lines, bad_genres, genre_counter)
-    
-    write_movies_to_file(train_movies_list, 'train_movies.txt')
-    write_movies_to_file(test_movies_list, 'test_movies.txt')
+
+    write_movies_to_file(train_movies_list, '../data/train_movies.txt')
+    write_movies_to_file(test_movies_list, '../data/test_movies.txt')
             
 if __name__ == '__main__':
     main()
