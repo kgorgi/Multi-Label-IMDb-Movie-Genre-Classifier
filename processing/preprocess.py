@@ -137,6 +137,8 @@ def write_movies_to_file(movie_tuples, filename):
 def main():
     lines = combine_files(0, 10)
 
+    print("Total number of movie synopses:", int(len(lines)/3))
+
     bad_genres, genre_counter = find_bad_genres(lines)
     train_movies_list, test_movies_list = preprocess_data(lines, bad_genres, genre_counter)
 
