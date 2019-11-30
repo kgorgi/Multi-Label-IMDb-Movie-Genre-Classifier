@@ -15,7 +15,7 @@ data_files = ["pages_1-10.txt", "pages_11-20.txt",
     "pages_81-90.txt", "pages_91-100.txt"]
 
 def count_genres(full_text):
-    genre_count = {}
+    genre_count = dict()
     genres_per_movie = full_text[1::3]
     for genre_list in genres_per_movie:
         for genre in genre_list.strip().split(','):
@@ -31,7 +31,7 @@ def get_genres(filename):
         return fh.readlines()
 
 def get_pages_text():
-    full_text = []
+    full_text = list()
     for data in data_files:
         file_loc = "pages/" + data
         with open(file_loc) as fh:
@@ -41,7 +41,7 @@ def get_pages_text():
 def plot_genre_count(genre_data, x_increment):
     labels = genre_data.keys()
     sizes = genre_data.values()
-    percentages = []
+    percentages = list()
     sum = 0
 
     for size in sizes:
