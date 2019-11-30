@@ -38,9 +38,16 @@ def get_pages_text():
             full_text.extend(fh.readlines())
     return full_text
 
+def order_dict(dict_to_order):
+    ordered_dict = dict()
+    for sorted_key in sorted(dict_to_order.keys()):
+        ordered_dict[sorted_key.capitalize()] = dict_to_order[sorted_key]
+    return ordered_dict
+
 def plot_genre_count(genre_data, x_increment):
-    labels = genre_data.keys()
-    sizes = genre_data.values()
+    ordered_genre_data = order_dict(genre_data)
+    labels = ordered_genre_data.keys()
+    sizes = ordered_genre_data.values()
     percentages = list()
     sum = 0
 
@@ -94,7 +101,7 @@ def get_average_synopsis_length(full_text):
 
 def main():
     genre_data_test = count_genres(get_genres('test_movies.txt'))
-    plot_genre_count(genre_data_test, 10)
+    plot_genre_count(genre_data_test, 25)
     genre_data_train = count_genres(get_genres('train_movies.txt'))
     plot_genre_count(genre_data_train, 200)
     genre_data_pages = count_genres(get_pages_text())
