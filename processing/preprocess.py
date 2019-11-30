@@ -25,7 +25,7 @@ def preprocess_data(lines, bad_genres, genre_counter):
     test_synopsis = list()
 
     ps = PorterStemmer()
-    genres = []
+    genres = list()
     train_with_movie = True
     usable_movie = False
 
