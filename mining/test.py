@@ -68,7 +68,7 @@ def print_stats(movies, genres, predicted_genres):
 
 def main():
     models_json = None
-    with open('./models.json') as models_file:
+    with open('./model.json') as models_file:
         models_json = models_file.read()
     
     models = json.loads(models_json)    
