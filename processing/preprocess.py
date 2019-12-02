@@ -122,7 +122,7 @@ def combine_files(start, end):
     for i in range(start, end):
         start_page_num = 1 + 10 * i
         end_page_num = 10 + 10 * i
-        with open('../data/pages/pages_' + str(start_page_num) \
+        with open('../data/raw/pages_' + str(start_page_num) \
                     + '-' + str(end_page_num) + '.txt', 'r') as fh:
             lines.extend(fh.read().splitlines())
 

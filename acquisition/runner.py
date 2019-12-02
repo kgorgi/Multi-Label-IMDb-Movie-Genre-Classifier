@@ -78,7 +78,7 @@ def acquire_data(start_page_num, end_page_num):
                   "Scraped Movies: " + str(len(result_list)))
             time.sleep(0.5)
 
-    with open('pages_' + str(start_page_num) + '-' + str(end_page_num) + '.txt', 'w') as fh:
+    with open('../data/raw/pages_' + str(start_page_num) + '-' + str(end_page_num) + '.txt', 'w') as fh:
         for movie in result_list:
             fh.writelines([movie[0] + '\n', ','.join(movie[1]) + '\n', movie[2] + '\n'])
 
