@@ -1,13 +1,6 @@
-import math
 import matplotlib.pyplot as plt
-import nltk
-nltk.download('stopwords')
-from nltk.corpus import stopwords
 import numpy as np
 import operator
-import os
-import re
-stop_words = set(stopwords.words('english'))
 
 data_files = ["pages_1-10.txt", "pages_11-20.txt",
     "pages_21-30.txt", "pages_31-40.txt", "pages_41-50.txt",
@@ -33,7 +26,7 @@ def get_genres(filename):
 def get_pages_text():
     full_text = list()
     for data in data_files:
-        file_loc = "pages/" + data
+        file_loc = "raw/" + data
         with open(file_loc) as fh:
             full_text.extend(fh.readlines())
     return full_text
@@ -73,22 +66,6 @@ def plot_genre_count(genre_data, x_increment):
     axis.set_title('Number of Movies per Genre')
     plt.show()
 
-def count_words(full_text):
-    word_count = dict()
-    words_in_synopsis = full_text[1::2]
-    
-    for word_chunk in words_in_synopsis:
-        for word in word_chunk.strip().split(" "):
-            new_word = re.sub(r'[^\w\s]', '', word.lower())
-            if new_word in stop_words:
-                continue
-            if new_word in word_count:
-                word_count[new_word] += 1
-            else:
-                word_count[new_word] = 1
-    word_count_sorted = sorted(word_count.items(), key=operator.itemgetter(1))
-    return word_count_sorted
-
 def get_average_synopsis_length(full_text):
     synopsis_count = 0
     synopsis_total_count = 0
@@ -106,8 +83,7 @@ def main():
     plot_genre_count(genre_data_train, 200)
     genre_data_pages = count_genres(get_pages_text())
     plot_genre_count(genre_data_pages, 200)
-    word_count_sorted = count_words(get_pages_text())
-    get_average_synopsis_length(get_pages_text())
+    print("Average synopsis length: ", get_average_synopsis_length(get_pages_text()))
 
 if __name__ == '__main__':
     main()
