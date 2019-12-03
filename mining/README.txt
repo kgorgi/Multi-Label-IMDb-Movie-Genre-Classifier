@@ -1,6 +1,6 @@
 Mining Module
 
-This module is seperated into four files:
+This module is separated into four files:
 
     - movie_synopsis.py: A class that represents a movie synopses.
 
@@ -12,7 +12,7 @@ This module is seperated into four files:
 
     - model.json: The saved model created from the test data set. 
 
-To train the multi-label classifer on the training data set (data/train_movies.txt)
+To train the multi-label classifier on the training data set (data/train_movies.txt)
 navigate to the mining folder and run "python3 train.py". 
 
 To test the multi-label classifier using the model.json file with the
