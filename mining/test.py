@@ -72,7 +72,7 @@ def main():
         models_json = models_file.read()
     
     models = json.loads(models_json)    
-    movies, test_genres = movie_synopsis.read_file('../data/train_movies.txt')
+    movies, test_genres = movie_synopsis.read_file('../data/test_movies.txt')
 
     genres = list(models.keys())
     genres.sort()
