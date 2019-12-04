@@ -10,7 +10,13 @@ headers = {
 def get_page(page_number):
     """Returns the HTML of a specific list page or None if response failed"""
     url = "https://www.imdb.com/list/" + list_id + "/?sort=list_order,asc&st_dt=&mode=detail&page=" + str(page_number)
-    return safe_get(url).text
+    
+    response = safe_get(url)
+
+    if response is None:
+        return None
+    else:
+        return response.text
 
 def process_page(html):
     """Processes HTML and returns an array of array [movie_id, array of genres]"""

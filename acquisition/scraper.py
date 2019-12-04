@@ -12,7 +12,12 @@ def remove_spaces(synopsis):
     return " ".join(text.split())
 
 def get_movie_synopsis(movie_id):
-    movie_page_html = BeautifulSoup(safe_get('https://www.imdb.com/title/' + movie_id + '/plotsummary').content, 'html.parser')
+    response = safe_get('https://www.imdb.com/title/' + movie_id + '/plotsummary')
+    
+    if response is None:
+        return None
+
+    movie_page_html = BeautifulSoup(response.content, 'html.parser')
     if movie_page_html.select('#no-synopsis-content'):
         return None
     else:
