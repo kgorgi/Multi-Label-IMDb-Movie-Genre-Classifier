@@ -1,4 +1,4 @@
-SENG 474 Project: Multi-Label IMDB Movie Genre Classifier    
+SENG 474 Project: Multi-Label IMDb Movie Genre Classifier    
 
 Members: 
 
@@ -11,15 +11,15 @@ Overview:
 This repo is split into four separate modules:
 
 1. Aquisition: 
-    - Crawl IMDB website and save data to the data/raw folder.
+    - Crawl IMDb website and save data to the data/raw folder.
 
 2. Data: 
-    - Contains the data scraped from the IMDB website and the 
+    - Contains the data scraped from the IMDb website and the 
        preproccessed data.
     - Statistics on both the raw and pre-processed data.
 
 3. Processing:
-    - Preprocess and separate the data acquired from IMDB into a test 
+    - Preprocess and separate the data acquired from IMDb into a test 
        and training data set. Store this data in the data module. 
 
 4. Mining:

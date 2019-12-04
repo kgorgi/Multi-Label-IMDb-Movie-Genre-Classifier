@@ -2,8 +2,8 @@ Acquisition Module
 
 This module is separated into four files:
 
-    - crawler.py: Retrieve a list of movies along with their genres from IMDB
-    - scraper.py: Scrap movie synopses from IMDB
+    - crawler.py: Retrieve a list of movies along with their genres from IMDb
+    - scraper.py: Scrap movie synopses from IMDb
     - runner.py: Multi-threading manager
     - utilities.py: Commonly used functionality
 
