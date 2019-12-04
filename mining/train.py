@@ -82,7 +82,7 @@ def main():
         print(genre + " model trained")
 
     encoded_model = json.dumps(models, indent=4, separators=(',', ': '))
-    with open('models.json', 'w') as model_file:
+    with open('model.json', 'w') as model_file:
         model_file.write(encoded_model)
     
 if __name__ =="__main__":
